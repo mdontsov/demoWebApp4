@@ -10,51 +10,49 @@ import java.util.Optional;
 @RestController
 public class UserController {
 
+    @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    @GetMapping(value = "/users")
-    public Iterable<User> findAllUsers() {
+    @RequestMapping(method = RequestMethod.GET, value = "/users")
+    public Iterable<User> user() {
         return userRepository.findAll();
     }
 
-    @PostMapping(value = "/users/{id}")
-    public Optional<User> findOneUser(@PathVariable Long id) {
+    @RequestMapping(method = RequestMethod.POST, value = "/users")
+    public User save(@RequestBody User user) {
+        userRepository.save(user);
+        return user;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/users/{id}")
+    public Optional<User> show(@PathVariable Long id) {
         return userRepository.findById(id);
     }
 
-    @PostMapping(value = "/users")
-    public User saveOneUser(@RequestBody User user) {
-        return userRepository.save(user);
-    }
-
-    @PutMapping(value = "/users/{id}")
-    public User updateOneUser(@PathVariable Long id, @RequestBody User originalUser) {
+    @RequestMapping(method = RequestMethod.PUT, value = "/users/{id}")
+    public User update(@PathVariable Long id, @RequestBody User originalUser) {
         Optional<User> optionalUser = userRepository.findById(id);
         User modifiedUser = optionalUser.get();
-        if (originalUser.getFirstName() != null) {
-            modifiedUser.setFirstName(originalUser.getFirstName());
+        if (originalUser.getFirstname() != null) {
+            modifiedUser.setFirstname(originalUser.getFirstname());
         }
-        if (originalUser.getLastName() != null) {
-            modifiedUser.setLastName(originalUser.getLastName());
+        if (originalUser.getLastname() != null) {
+            modifiedUser.setLastname(originalUser.getLastname());
         }
         if (originalUser.getEmail() != null) {
             modifiedUser.setEmail(originalUser.getEmail());
         }
-        if (originalUser.getPhoneNumber() != null) {
-            modifiedUser.setPhoneNumber(originalUser.getPhoneNumber());
+        if (originalUser.getPhonenumber() != null) {
+            modifiedUser.setPhonenumber(originalUser.getPhonenumber());
         }
         userRepository.save(modifiedUser);
         return modifiedUser;
     }
 
-    @DeleteMapping(value = "/users/{id}")
-    void deleteOneUser(@PathVariable Long id) {
-        Optional<User> user = userRepository.findById(id);
-        userRepository.deleteById(id);
+    @RequestMapping(method = RequestMethod.DELETE, value = "/users/{id}")
+    void delete(@PathVariable Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        User user = optionalUser.get();
+        userRepository.delete(user);
     }
 }
