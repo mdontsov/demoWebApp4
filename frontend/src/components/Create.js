@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import ReactDOM from 'react-dom';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
 
@@ -13,16 +12,12 @@ class Create extends Component {
             email: '',
             phonenumber: ''
         };
+        this.onChange = this.onChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
     }
 
-    onChange = (e) => {
-        const state = this.state;
-        state[e.target.firstname] = e.target.value;
-        this.setState(state);
-    };
-
-    onSubmit = (e) => {
-        e.preventDefault();
+    onSubmit(event) {
+        event.preventDefault();
 
         const {firstname, lastname, email, phonenumber} = this.state;
 
@@ -30,10 +25,15 @@ class Create extends Component {
             .then((result) => {
                 this.props.history.push("/")
             });
-    };
+    }
+
+    onChange(event) {
+        this.setState({
+            [event.target.name]: event.target.value
+        })
+    }
 
     render() {
-        const {firstname, lastname, email, phonenumber} = this.state;
         return (
             <div class="container">
                 <div class="panel panel-default">
@@ -48,23 +48,19 @@ class Create extends Component {
                         <form onSubmit={this.onSubmit}>
                             <div class="form-group">
                                 <label for="firstname">Fistname:</label>
-                                <input type="text" class="form-control" name="firstname" value={firstname}
-                                       onChange={this.onChange}/>
+                                <input type="text" class="form-control" name="firstname" onChange={this.onChange}/>
                             </div>
                             <div class="form-group">
                                 <label for="lastname">Lastname:</label>
-                                <input type="text" class="form-control" name="lastname" value={lastname}
-                                       onChange={this.onChange}/>
+                                <input type="text" class="form-control" name="lastname" onChange={this.onChange}/>
                             </div>
                             <div class="form-group">
                                 <label for="email">Email:</label>
-                                <input type="email" class="form-control" name="email" value={email}
-                                       onChange={this.onChange}/>
+                                <input type="email" class="form-control" name="email" onChange={this.onChange}/>
                             </div>
                             <div class="form-group">
                                 <label for="phonenumber">Phonenumber:</label>
-                                <input type="text" class="form-control" name="phonenumber" value={phonenumber}
-                                       onChange={this.onChange}/>
+                                <input type="text" class="form-control" name="phonenumber" onChange={this.onChange}/>
                             </div>
                             <button type="submit" class="btn btn-default">Submit</button>
                         </form>
