@@ -21,7 +21,7 @@ class Edit extends Component {
 
     onChange = (e) => {
         const state = this.state.user;
-        state[e.target.firstname] = e.target.value;
+        state[e.target.name] = e.target.value;
         this.setState({user: state});
     };
 
@@ -52,23 +52,19 @@ class Edit extends Component {
                         <form onSubmit={this.onSubmit}>
                             <div class="form-group">
                                 <label for="firstname">Firstname:</label>
-                                <input type="text" class="form-control" name="firstname"
-                                       value={this.state.user.firstname} onChange={this.onChange}/>
+                                <input type="text" class="form-control" name="firstname" onChange={this.onChange}/>
                             </div>
                             <div class="form-group">
                                 <label for="lastname">Lastname:</label>
-                                <input type="text" class="form-control" name="lastname" value={this.state.user.lastname}
-                                       onChange={this.onChange}/>
+                                <input type="text" class="form-control" name="lastname" onChange={this.onChange}/>
                             </div>
                             <div class="form-group">
                                 <label for="email">Email:</label>
-                                <input type="email" class="form-control" name="email" value={this.state.user.email}
-                                       onChange={this.onChange}/>
+                                <input type="email" class="form-control" name="email" onChange={this.onChange}/>
                             </div>
                             <div class="form-group">
                                 <label for="phonenumber">Phoneumber:</label>
-                                <input type="text" class="form-control" name="phonenumber"
-                                       value={this.state.user.phonenumber} onChange={this.onChange}/>
+                                <input type="text" class="form-control" name="phonenumber" onChange={this.onChange}/>
                             </div>
                             <button type="submit" class="btn btn-default">Update</button>
                         </form>
