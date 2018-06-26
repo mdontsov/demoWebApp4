@@ -2,6 +2,7 @@ package com.cgi.controller;
 
 import com.cgi.model.User;
 import com.cgi.repository.UserRepository;
+import com.cgi.component.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,51 +11,51 @@ import java.util.Optional;
 @RestController
 public class UserController {
 
-    private UserRepository userRepository;
+    private UserServiceImpl userService;
 
     @Autowired
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserController(UserRepository userRepository, UserServiceImpl userService) {
+        this.userService = userService;
     }
 
     @GetMapping(value = "/users")
     public Iterable<User> findAllUsers() {
-        return userRepository.findAll();
+        return userService.findAll();
     }
 
     @PostMapping(value = "/users/{id}")
     public Optional<User> findOneUser(@PathVariable Long id) {
-        return userRepository.findById(id);
+        return userService.findOne(id);
     }
 
     @PostMapping(value = "/users")
     public User saveOneUser(@RequestBody User user) {
-        return userRepository.save(user);
+        return userService.save(user);
     }
 
     @PutMapping(value = "/users/{id}")
     public User updateOneUser(@PathVariable Long id, @RequestBody User originalUser) {
-        Optional<User> optionalUser = userRepository.findById(id);
+        Optional<User> optionalUser = userService.findOne(id);
         User modifiedUser = optionalUser.get();
-        if (originalUser.getFirstName() != null) {
-            modifiedUser.setFirstName(originalUser.getFirstName());
+        if (originalUser.getFirstname() != null) {
+            modifiedUser.setFirstname(originalUser.getFirstname());
         }
-        if (originalUser.getLastName() != null) {
-            modifiedUser.setLastName(originalUser.getLastName());
+        if (originalUser.getLastname() != null) {
+            modifiedUser.setLastname(originalUser.getLastname());
         }
         if (originalUser.getEmail() != null) {
             modifiedUser.setEmail(originalUser.getEmail());
         }
-        if (originalUser.getPhoneNumber() != null) {
-            modifiedUser.setPhoneNumber(originalUser.getPhoneNumber());
+        if (originalUser.getPhonenumber() != null) {
+            modifiedUser.setPhonenumber(originalUser.getPhonenumber());
         }
-        userRepository.save(modifiedUser);
+        userService.save(modifiedUser);
         return modifiedUser;
     }
 
     @DeleteMapping(value = "/users/{id}")
     void deleteOneUser(@PathVariable Long id) {
-        Optional<User> user = userRepository.findById(id);
-        userRepository.deleteById(id);
+        Optional<User> user = userService.findOne(id);
+        userService.delete(id);
     }
 }
