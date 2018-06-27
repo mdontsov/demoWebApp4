@@ -8,9 +8,9 @@ import java.util.Optional;
 
 public interface UserDTOService {
 
-    List<UserDTO> findAll();
+    Iterable<UserDTO> findAll();
 
-    UserDTO findOne(Long id);
+    Optional<UserDTO> findOne(Long id);
 
     UserDTO save(User user);
 
