@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class UserController {
@@ -28,7 +29,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/users/{id}")
-    public UserDTO findOneUser(@PathVariable Long id) {
+    public Optional<UserDTO> findOneUser(@PathVariable Long id) {
         return userDTOService.findOne(id);
     }
 
@@ -39,7 +40,11 @@ public class UserController {
 
     @PutMapping(value = "/users/{id}")
     public UserDTO updateOneUser(@PathVariable Long id, @RequestBody User user) {
-        UserDTO userDto = findOneUser(id);
+        Optional<UserDTO> optionalDto = userDTOService.findOne(id);
+        UserDTO userDto = optionalDto.get();
+//        if (user.getId() != null) {
+//            userDto.setId(user.getId());
+//        }
         if (user.getFirstname() != null) {
             userDto.setFirstname(user.getFirstname());
         }

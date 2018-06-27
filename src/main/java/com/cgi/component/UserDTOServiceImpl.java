@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -24,19 +25,17 @@ public class UserDTOServiceImpl implements UserDTOService {
         this.mapperConfig = mapperConfig;
     }
 
-
     @Override
     public List<UserDTO> findAll() {
         List<User> users = userRepository.findAll();
-        return users
-                .stream()
+        return users.stream()
                 .map(user -> mapperConfig.convertToDto(user))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public UserDTO findOne(Long id) {
-        return mapperConfig.convertToDto(userRepository.getOne(id));
+    public Optional<UserDTO> findOne(Long id) {
+        return mapperConfig.convertToOptionalDto(userRepository.findById(id));
     }
 
     @Override

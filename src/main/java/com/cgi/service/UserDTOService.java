@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface UserDTOService {
 
-    Iterable<UserDTO> findAll();
+    List<UserDTO> findAll();
 
     Optional<UserDTO> findOne(Long id);
 
