@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
+import java.util.Optional;
 
 @Component
 public class MapperConfig {
@@ -18,6 +19,10 @@ public class MapperConfig {
 
     public UserDTO convertToDto(User user) {
         return modelMapper().map(user, UserDTO.class);
+    }
+
+    public Optional<UserDTO> convertToOptionalDto(User user) {
+        return Optional.of(modelMapper().map(user, UserDTO.class));
     }
 
     public User convertToEntity(UserDTO userDTO) throws ParseException {
