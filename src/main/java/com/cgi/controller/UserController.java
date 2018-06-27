@@ -12,29 +12,29 @@ import java.util.List;
 @RestController
 public class UserController {
 
-    private UserDTOServiceImpl userService;
+    private UserDTOServiceImpl userDTOService;
 
     private MapperConfig mapperConfig;
 
     @Autowired
     public UserController(UserDTOServiceImpl userService, MapperConfig mapperConfig) {
-        this.userService = userService;
+        this.userDTOService = userService;
         this.mapperConfig = mapperConfig;
     }
 
     @GetMapping(value = "/users")
     public List<UserDTO> findAllUsers() {
-        return userService.findAll();
+        return userDTOService.findAll();
     }
 
     @PostMapping(value = "/users/{id}")
     public UserDTO findOneUser(@PathVariable Long id) {
-        return userService.findOne(id);
+        return userDTOService.findOne(id);
     }
 
     @PostMapping(value = "/users")
     public UserDTO saveOneUser(@RequestBody User user) {
-        return userService.save(user);
+        return userDTOService.save(user);
     }
 
     @PutMapping(value = "/users/{id}")
@@ -52,12 +52,12 @@ public class UserController {
         if (user.getPhonenumber() != null) {
             userDto.setPhonenumber(user.getPhonenumber());
         }
-        userService.save(user);
+        userDTOService.save(user);
         return userDto;
     }
 
     @DeleteMapping(value = "/users/{id}")
     void deleteOneUser(@PathVariable Long id) {
-        userService.delete(id);
+        userDTOService.delete(id);
     }
 }
