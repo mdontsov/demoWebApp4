@@ -5,9 +5,10 @@ import com.cgi.dto.UserDTO;
 import com.cgi.model.User;
 import com.cgi.repository.UserRepository;
 import com.cgi.service.UserDTOService;
+import org.hibernate.MappingException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.transaction.Transactional;
 import java.util.List;

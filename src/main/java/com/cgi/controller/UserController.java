@@ -1,6 +1,5 @@
 package com.cgi.controller;
 
-import com.cgi.config.MapperConfig;
 import com.cgi.dto.UserDTO;
 import com.cgi.model.User;
 import com.cgi.component.UserDTOServiceImpl;
@@ -15,12 +14,9 @@ public class UserController {
 
     private UserDTOServiceImpl userDTOService;
 
-    private MapperConfig mapperConfig;
-
     @Autowired
-    public UserController(UserDTOServiceImpl userService, MapperConfig mapperConfig) {
-        this.userDTOService = userService;
-        this.mapperConfig = mapperConfig;
+    public UserController(UserDTOServiceImpl userDTOService) {
+        this.userDTOService = userDTOService;
     }
 
     @GetMapping(value = "/users")
