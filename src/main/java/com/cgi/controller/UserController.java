@@ -1,61 +1,50 @@
 package com.cgi.controller;
 
+import com.cgi.config.MapperConfig;
+import com.cgi.dto.UserDTO;
 import com.cgi.model.User;
-import com.cgi.repository.UserRepository;
-import com.cgi.component.UserServiceImpl;
+import com.cgi.component.UserDTOServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
 public class UserController {
 
-    private UserServiceImpl userService;
+    private UserDTOServiceImpl userDTOService;
+
+    private MapperConfig mapperConfig;
 
     @Autowired
-    public UserController(UserServiceImpl userService) {
-        this.userService = userService;
+    public UserController(UserDTOServiceImpl userService, MapperConfig mapperConfig) {
+        this.userDTOService = userService;
+        this.mapperConfig = mapperConfig;
     }
 
     @GetMapping(value = "/users")
-    public Iterable<User> findAllUsers() {
-        return userService.findAll();
+    public List<UserDTO> findAllUsers() {
+        return userDTOService.findAll();
     }
 
     @PostMapping(value = "/users/{id}")
-    public Optional<User> findOneUser(@PathVariable Long id) {
-        return userService.findOne(id);
+    public Optional<UserDTO> findOneUser(@PathVariable Long id) {
+        return userDTOService.findOne(id);
     }
 
     @PostMapping(value = "/users")
-    public User saveOneUser(@RequestBody User user) {
-        return userService.save(user);
+    public UserDTO saveUser(@RequestBody User user) {
+        return userDTOService.save(user);
     }
 
     @PutMapping(value = "/users/{id}")
-    public User updateOneUser(@PathVariable Long id, @RequestBody User originalUser) {
-        Optional<User> optionalUser = userService.findOne(id);
-        User modifiedUser = optionalUser.get();
-        if (originalUser.getFirstname() != null) {
-            modifiedUser.setFirstname(originalUser.getFirstname());
-        }
-        if (originalUser.getLastname() != null) {
-            modifiedUser.setLastname(originalUser.getLastname());
-        }
-        if (originalUser.getEmail() != null) {
-            modifiedUser.setEmail(originalUser.getEmail());
-        }
-        if (originalUser.getPhonenumber() != null) {
-            modifiedUser.setPhonenumber(originalUser.getPhonenumber());
-        }
-        userService.save(modifiedUser);
-        return modifiedUser;
+    public UserDTO updateUser(@PathVariable Long id, @RequestBody User user) {
+        return userDTOService.update(id, user);
     }
 
     @DeleteMapping(value = "/users/{id}")
     void deleteOneUser(@PathVariable Long id) {
-        Optional<User> user = userService.findOne(id);
-        userService.delete(id);
+        userDTOService.delete(id);
     }
 }
