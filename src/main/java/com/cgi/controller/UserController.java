@@ -34,31 +34,13 @@ public class UserController {
     }
 
     @PostMapping(value = "/users")
-    public UserDTO saveOneUser(@RequestBody User user) {
+    public UserDTO saveUser(@RequestBody User user) {
         return userDTOService.save(user);
     }
 
     @PutMapping(value = "/users/{id}")
-    public UserDTO updateOneUser(@PathVariable Long id, @RequestBody User user) {
-        Optional<UserDTO> optionalDto = userDTOService.findOne(id);
-        UserDTO userDto = optionalDto.get();
-//        if (user.getId() != null) {
-//            userDto.setId(user.getId());
-//        }
-        if (user.getFirstname() != null) {
-            userDto.setFirstname(user.getFirstname());
-        }
-        if (user.getLastname() != null) {
-            userDto.setLastname(user.getLastname());
-        }
-        if (user.getEmail() != null) {
-            userDto.setEmail(user.getEmail());
-        }
-        if (user.getPhonenumber() != null) {
-            userDto.setPhonenumber(user.getPhonenumber());
-        }
-        userDTOService.save(user);
-        return userDto;
+    public UserDTO updateUser(@PathVariable Long id, @RequestBody User user) {
+        return userDTOService.update(id, user);
     }
 
     @DeleteMapping(value = "/users/{id}")

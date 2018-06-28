@@ -15,4 +15,6 @@ public interface UserDTOService {
     UserDTO save(User user);
 
     void delete(Long id);
+
+    UserDTO update(Long id, User user);
 }
