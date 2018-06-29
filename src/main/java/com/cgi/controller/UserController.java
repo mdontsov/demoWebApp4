@@ -1,7 +1,7 @@
 package com.cgi.controller;
 
+import com.cgi.component.UserServiceImpl;
 import com.cgi.model.User;
-import com.cgi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,28 +10,36 @@ import java.util.Optional;
 @RestController
 public class UserController {
 
-    @Autowired
-    private UserRepository userRepository;
+    private UserServiceImpl userService;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/users")
-    public Iterable<User> user() {
-        return userRepository.findAll();
+    @Autowired
+    public UserController(UserServiceImpl userService) {
+        this.userService = userService;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/users")
+    //    @RequestMapping(method = RequestMethod.GET, value = "/users")
+    @GetMapping(value = "/users")
+    public Iterable<User> user() {
+        return userService.findAll();
+    }
+
+//    @RequestMapping(method = RequestMethod.POST, value = "/users")
+    @PostMapping(value = "/users")
     public User save(@RequestBody User user) {
-        userRepository.save(user);
+        userService.save(user);
         return user;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/users/{id}")
+//    @RequestMapping(method = RequestMethod.GET, value = "/users/{id}")
+    @GetMapping(value = "/users/{id}")
     public Optional<User> show(@PathVariable Long id) {
-        return userRepository.findById(id);
+        return userService.findOne(id);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/users/{id}")
+//    @RequestMapping(method = RequestMethod.PUT, value = "/users/{id}")
+    @PutMapping(value = "/users/{id}")
     public User update(@PathVariable Long id, @RequestBody User originalUser) {
-        Optional<User> optionalUser = userRepository.findById(id);
+        Optional<User> optionalUser = userService.findOne(id);
         User modifiedUser = optionalUser.get();
         if (originalUser.getFirstname() != null) {
             modifiedUser.setFirstname(originalUser.getFirstname());
@@ -45,14 +53,15 @@ public class UserController {
         if (originalUser.getPhonenumber() != null) {
             modifiedUser.setPhonenumber(originalUser.getPhonenumber());
         }
-        userRepository.save(modifiedUser);
+        userService.save(modifiedUser);
         return modifiedUser;
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/users/{id}")
+//    @RequestMapping(method = RequestMethod.DELETE, value = "/users/{id}")
+    @DeleteMapping(value = "/users/{id}")
     void delete(@PathVariable Long id) {
-        Optional<User> optionalUser = userRepository.findById(id);
+        Optional<User> optionalUser = userService.findOne(id);
         User user = optionalUser.get();
-        userRepository.delete(user);
+        userService.delete(user);
     }
 }
