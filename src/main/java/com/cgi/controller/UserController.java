@@ -17,26 +17,22 @@ public class UserController {
         this.userService = userService;
     }
 
-    //    @RequestMapping(method = RequestMethod.GET, value = "/users")
     @GetMapping(value = "/users")
     public Iterable<User> user() {
         return userService.findAll();
     }
 
-//    @RequestMapping(method = RequestMethod.POST, value = "/users")
     @PostMapping(value = "/users")
     public User save(@RequestBody User user) {
         userService.save(user);
         return user;
     }
 
-//    @RequestMapping(method = RequestMethod.GET, value = "/users/{id}")
     @GetMapping(value = "/users/{id}")
     public Optional<User> show(@PathVariable Long id) {
         return userService.findOne(id);
     }
 
-//    @RequestMapping(method = RequestMethod.PUT, value = "/users/{id}")
     @PutMapping(value = "/users/{id}")
     public User update(@PathVariable Long id, @RequestBody User originalUser) {
         Optional<User> optionalUser = userService.findOne(id);
@@ -57,7 +53,6 @@ public class UserController {
         return modifiedUser;
     }
 
-//    @RequestMapping(method = RequestMethod.DELETE, value = "/users/{id}")
     @DeleteMapping(value = "/users/{id}")
     void delete(@PathVariable Long id) {
         Optional<User> optionalUser = userService.findOne(id);
