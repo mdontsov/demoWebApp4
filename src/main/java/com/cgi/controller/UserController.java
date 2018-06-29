@@ -24,7 +24,7 @@ public class UserController {
         return userDTOService.findAll();
     }
 
-    @PostMapping(value = "/users/{id}")
+    @GetMapping(value = "/users/{id}")
     public Optional<UserDTO> findOneUser(@PathVariable Long id) {
         return userDTOService.findOne(id);
     }
